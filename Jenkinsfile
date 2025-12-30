@@ -3,6 +3,7 @@ pipeline {
     tools {
         maven "MAVEN3.9"
         jdk "JDK17"
+
     }
     
     environment {
@@ -22,23 +23,22 @@ pipeline {
             steps {
                 sh 'mvn -s settings.xml -DskipTests install'
             }
-
             post {
                 success {
-                    echo "Now archiving the artifacts"
+                    echo "Now Archiving."
                     archiveArtifacts artifacts: '**/*.war'
                 }
             }
         }
-            
-            }
-        stage('unit test'){
+
+        stage('Test'){
             steps {
                 sh 'mvn -s settings.xml test'
             }
+
         }
 
-        stage('checkstyle analysis'){
+        stage('Checkstyle Analysis'){
             steps {
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
             }
